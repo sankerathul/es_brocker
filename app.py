@@ -42,7 +42,7 @@ lower_limit_unix = int(time.mktime(lower_limit.timetuple())*1000)
 for f in fields:
     field = "categories.intents.Transactional.{}".format(f)
 
-    get_count["aggs"]["2"]["3"]["range"]["field"] = field
+    get_count["aggs"]["2"]["aggs"]["3"]["range"]["field"] = field
     get_intent_score["query"]["bool"]["must"]["range"]['@timestamp']['gte'] = lower_limit_unix
     get_intent_score["query"]["bool"]["must"]["range"]['@timestamp']['lte'] = higher_limit_unix
 
