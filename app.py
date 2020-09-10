@@ -43,8 +43,8 @@ for f in fields:
     field = "categories.intents.Transactional.{}".format(f)
 
     get_intent_score["aggs"]["2"]["aggs"]["3"]["range"]["field"] = field
-    get_intent_score["query"]["bool"]["must"]["range"]['@timestamp']['gte'] = lower_limit_unix
-    get_intent_score["query"]["bool"]["must"]["range"]['@timestamp']['lte'] = higher_limit_unix
+    get_intent_score["query"]["bool"]["must"][3]["range"]['@timestamp']['gte'] = lower_limit_unix
+    get_intent_score["query"]["bool"]["must"][3]["range"]['@timestamp']['lte'] = higher_limit_unix
 
     response = elastic_client.search(index="logstash-*", body=get_intent_score)
 
