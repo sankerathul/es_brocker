@@ -11,9 +11,9 @@ import json, requests
 
 elastic_client = Elasticsearch(['http://18.130.251.121/'])
 
-search_param = {"query": {"match_all": {}}}
+# search_param = {"query": {"match_all": {}}}
 
-response = elastic_client.search(index="logstash-*", body=search_param)
+response = elastic_client.search(index="logstash-*", body=total_unique_count)
 
 print(response)
 
