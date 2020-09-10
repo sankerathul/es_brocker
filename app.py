@@ -15,6 +15,8 @@ elastic_client = Elasticsearch(['http://18.130.251.121/'])
 higher_limit = datetime.now()
 lower_limit = higher_limit - timedelta(days=30)
 
+print(higher_limit, lower_limit)
+
 total_unique_count["query"]["bool"]["must"][3]["range"]['@timestamp']['gte'] = int(time.mktime(higher_limit.timetuple())*1000)
 total_unique_count["query"]["bool"]["must"][3]["range"]['@timestamp']['lte'] = int(time.mktime(lower_limit.timetuple())*1000)
 
