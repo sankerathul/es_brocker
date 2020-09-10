@@ -8,7 +8,6 @@ import pandas as pd
 
 from elasticsearch import Elasticsearch
 import json, requests
-from pprintpp import pprint as pp
 
 elastic_client = Elasticsearch(['http://18.130.251.121/'])
 
