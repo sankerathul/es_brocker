@@ -1,4 +1,4 @@
-total_unique_count = {
+get_count = {
   "aggs": {
     "3": {
       "terms": {
@@ -66,3 +66,91 @@ total_unique_count = {
     }
   }
 }
+
+get_intent_score = {
+  "aggs": {
+    "2": {
+      "terms": {
+        "field": "row_cat_data.categories_v2.keyword",
+        "size": 100000,
+        "order": {
+          "_count": "desc"
+        }
+      },
+      "aggs": {
+        "3": {
+          "range": {
+            "field": "categories.intents.Informational",
+            "ranges": [
+              {
+                "from": 0,
+                "to": 25
+              },
+              {
+                "from": 25,
+                "to": 50
+              },
+              {
+                "from": 50,
+                "to": 75
+              },
+              {
+                "from": 75,
+                "to": 101
+              }
+            ],
+            "keyed": "true"
+          }
+        }
+      }
+    }
+  },
+  "size": 0,
+  "_source": {
+    "excludes": []
+  },
+  "stored_fields": [
+    "*"
+  ],
+  "script_fields": {},
+  "docvalue_fields": [
+    {
+      "field": "@timestamp",
+      "format": "date_time"
+    }
+  ],
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match_all": {}
+        },
+        {
+          "match_all": {}
+        },
+        {
+          "exists": {
+            "field": "row_cat_data.categories_v2.keyword"
+          }
+        },
+        {
+          "range": {
+            "@timestamp": {
+              "gte": 1597164155261,
+              "lte": 1599756155261,
+              "format": "epoch_millis"
+            }
+          }
+        },
+        {
+          "exists": {
+            "field": "row_cat_data.categories_v2.keyword"
+          }
+        }
+      ],
+      "filter": [],
+      "should": [],
+      "must_not": []
+    }
+  }
+} 
