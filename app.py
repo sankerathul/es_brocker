@@ -13,7 +13,7 @@ elastic_client = Elasticsearch(['http://18.130.251.121/'])
 
 search_param = {"query": {"match_all": {}}}
 
-response = elastic_client.search(index="kibana_sample_data_logs", body=search_param)
+response = elastic_client.search(index="logstash-*", body=search_param)
 
 print(response)
 
