@@ -24,19 +24,19 @@ lower_limit_unix = int(time.mktime(lower_limit.timetuple())*1000)
 
 # print(higher_limit_unix,lower_limit_unix)
 
-# get_count["query"]["bool"]["must"][3]["range"]['@timestamp']['gte'] = lower_limit_unix
-# get_count["query"]["bool"]["must"][3]["range"]['@timestamp']['lte'] = higher_limit_unix
+get_count["query"]["bool"]["must"][3]["range"]['@timestamp']['gte'] = lower_limit_unix
+get_count["query"]["bool"]["must"][3]["range"]['@timestamp']['lte'] = higher_limit_unix
 
-# response1 = elastic_client.search(index="logstash-*", body=get_count)
+response = elastic_client.search(index="logstash-*", body=get_count)
 
-# doc_count = response1['hits']['total']
-# row_buckets = response1['aggregations']["3"]["buckets"]
+doc_count = response['hits']['total']
+row_buckets = response['aggregations']["3"]["buckets"]
 
-# result = dict()
-# result = dict()
+result = dict()
+result = dict()
 
-# for ag in row_buckets:
-#     result[ag["key"]] = {"doc_count" : ag["doc_count"] ,  "unique_count" : ag["1"]["value"]}
+for ag in row_buckets:
+    result[ag["key"]] = {"doc_count" : ag["doc_count"] ,  "unique_count" : ag["1"]["value"]}
 
 
 for f in fields:
@@ -52,14 +52,14 @@ for f in fields:
     row_buckets = response['aggregations']["2"]["buckets"]
     # print(row_buckets)
 
-    # for ag in row_buckets:
-    #     key = ag["key"]
-    #     val = ag["3"]["buckets"]
-    #     tmp = {}
-    #     for k in val.keys():
-    #         tmp[k] = val[k]["doc_count"]
+    for ag in row_buckets:
+        key = ag["key"]
+        val = ag["3"]["buckets"]
+        tmp = {}
+        for k in val.keys():
+            tmp[k] = val[k]["doc_count"]
         
-    #     result[key]["informational"] = tmp 
+        result[key]["informational"] = tmp 
 
 
-# print(result)
+print(result)
