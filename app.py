@@ -10,7 +10,7 @@ from elasticsearch import Elasticsearch
 import json, requests
 from pprintpp import pprint as pp
 
-elastic_client = Elasticsearch()
+elastic_client = Elasticsearch(['http://18.130.251.121/'])
 
 search_param = {"query": {"match_all": {}}}
 
