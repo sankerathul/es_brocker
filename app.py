@@ -22,8 +22,8 @@ lower_limit_unix = int(time.mktime(lower_limit.timetuple())*1000)
 
 print(higher_limit_unix,lower_limit_unix)
 
-total_unique_count["query"]["bool"]["must"][3]["range"]['@timestamp']['gte'] = higher_limit_unix
-total_unique_count["query"]["bool"]["must"][3]["range"]['@timestamp']['lte'] = lower_limit_unix
+total_unique_count["query"]["bool"]["must"][3]["range"]['@timestamp']['gte'] = lower_limit_unix
+total_unique_count["query"]["bool"]["must"][3]["range"]['@timestamp']['lte'] = higher_limit_unix
 
 response = elastic_client.search(index="logstash-*", body=total_unique_count)
 
