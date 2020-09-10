@@ -17,8 +17,13 @@ lower_limit = higher_limit - timedelta(days=30)
 
 print(higher_limit, lower_limit)
 
-total_unique_count["query"]["bool"]["must"][3]["range"]['@timestamp']['gte'] = int(time.mktime(higher_limit.timetuple())*1000)
-total_unique_count["query"]["bool"]["must"][3]["range"]['@timestamp']['lte'] = int(time.mktime(lower_limit.timetuple())*1000)
+higher_limit_unix = int(time.mktime(higher_limit.timetuple())*1000)
+lower_limit_unix = int(time.mktime(lower_limit.timetuple())*1000)
+
+print(higher_limit_unix,lower_limit_unix)
+
+total_unique_count["query"]["bool"]["must"][3]["range"]['@timestamp']['gte'] = higher_limit_unix
+total_unique_count["query"]["bool"]["must"][3]["range"]['@timestamp']['lte'] = lower_limit_unix
 
 response = elastic_client.search(index="logstash-*", body=total_unique_count)
 
