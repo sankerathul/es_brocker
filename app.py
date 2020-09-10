@@ -1,5 +1,5 @@
 from queries import get_count, get_intent_score
-from responsesample import response1,response2
+# from responsesample import response1,response2
 
 from datetime import datetime, timedelta
 import time
