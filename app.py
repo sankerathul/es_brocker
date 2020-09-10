@@ -59,7 +59,7 @@ for f in fields:
         for k in val.keys():
             tmp[k] = val[k]["doc_count"]
         
-        result[key]["informational"] = tmp 
+        result[key][f] = tmp 
 
 
 print(result)
