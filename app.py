@@ -62,5 +62,6 @@ def get_bucket_aggregate(higher_limit = default_higher_limit, lower_limit = defa
             result[key][f] = tmp 
 
     result = json.dumps(result, ensure_ascii=False).encode('utf8')
+    result = json.loads(result)
 
     return result
