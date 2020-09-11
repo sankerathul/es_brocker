@@ -1,7 +1,8 @@
-from flask import Flask
-from flask import jsonify
+from flask import Flask, request, jsonify
 from app import get_bucket_aggregate
 
+from datetime import datetime, timedelta
+import time
 
 app = Flask(__name__)
 
@@ -9,9 +10,17 @@ app = Flask(__name__)
 def hello_world():
     return 'Hello, World!'
 
-@app.route('/get_data')
+@app.route('/get_data', methods=['POST'])
 def get_es_data():
-    res = get_bucket_aggregate()
+    data = request.json
+    try:
+        higher_limit = datetime.strptime(data["higher_limit"], '%Y-%m-%d %H:%M:%S.%f')
+        lower_limit = datetime.strptime(data["lower_limit"], '%Y-%m-%d %H:%M:%S.%f')
+
+        res = get_bucket_aggregate(higher_limit, lower_limit)
+    except:
+        res = get_bucket_aggregate()
+    
     return jsonify(res)
 
 if __name__ == "__main__":

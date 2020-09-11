@@ -13,10 +13,10 @@ fields = ["Informational","Transactional","Commercial"]
 
 elastic_client = Elasticsearch(['http://18.130.251.121/'])
 
-higher_limit = datetime.now()
-lower_limit = higher_limit - timedelta(days=30)
+default_higher_limit = datetime.now()
+default_lower_limit = default_higher_limit - timedelta(days=30)
 
-def get_bucket_aggregate():
+def get_bucket_aggregate(higher_limit = default_higher_limit, lower_limit = default_lower_limit):
     # print(higher_limit, lower_limit)
 
     higher_limit_unix = int(time.mktime(higher_limit.timetuple())*1000)
