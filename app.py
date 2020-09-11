@@ -61,7 +61,6 @@ def get_bucket_aggregate(higher_limit = default_higher_limit, lower_limit = defa
             
             result[key][f] = tmp 
 
-    df = pd.DataFrame.from_dict(result)
-    print(df)
+    result = json.dumps(result, ensure_ascii=False)
 
     return result
