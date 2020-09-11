@@ -29,7 +29,8 @@ def get_bucket_aggregate(higher_limit = default_higher_limit, lower_limit = defa
 
     response = elastic_client.search(index="logstash-*", body=get_count)
 
-    # doc_count = response['hits']['total']
+    doc_count = response['hits']['total']
+    print("Doc Count", doc_count)
     row_buckets = response['aggregations']["3"]["buckets"]
 
     result = dict()
