@@ -1,4 +1,5 @@
 from flask import Flask
+from flask import jsonify
 from app import get_bucket_aggregate
 
 
@@ -11,8 +12,7 @@ def hello_world():
 @app.route('/get_data')
 def get_es_data():
     res = get_bucket_aggregate()
-    print(res)
-    return res
+    return jsonify(res)
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0')
