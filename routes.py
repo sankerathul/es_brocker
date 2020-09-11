@@ -21,7 +21,8 @@ def get_es_data():
     except:
         res = get_bucket_aggregate()
     
-    return jsonify(res)
+    # return jsonify(res)
+    return res
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0')
