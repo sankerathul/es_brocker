@@ -11,6 +11,7 @@ def hello_world():
 @app.route('/get_data')
 def get_es_data():
     res = get_bucket_aggregate()
+    print(res)
     return res
 
 if __name__ == "__main__":
