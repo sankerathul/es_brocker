@@ -35,7 +35,7 @@ def get_bucket_aggregate(higher_limit = default_higher_limit, lower_limit = defa
 
     result = dict()
 
-    print(row_buckets)
+    # print(row_buckets)
 
     for ag in row_buckets:
         result[ag["key"]] = {"doc_count" : ag["doc_count"] ,  "unique_count" : ag["1"]["value"]}
@@ -52,16 +52,16 @@ def get_bucket_aggregate(higher_limit = default_higher_limit, lower_limit = defa
 
 
         row_buckets = response['aggregations']["2"]["buckets"]
-        # print(row_buckets)
+        print(row_buckets)
 
-        for ag in row_buckets:
-            key = ag["key"]
-            val = ag["3"]["buckets"]
-            tmp = {}
-            for k in val.keys():
-                tmp[k] = val[k]["doc_count"]
+        # for ag in row_buckets:
+        #     key = ag["key"]
+        #     val = ag["3"]["buckets"]
+        #     tmp = {}
+        #     for k in val.keys():
+        #         tmp[k] = val[k]["doc_count"]
             
-            result[key][f] = tmp 
+        #     result[key][f] = tmp 
 
 
     return result
