@@ -3,5 +3,4 @@ requests>=2.20.0
 gunicorn
 numpy
 pandas
-Flask
 uWSGI
