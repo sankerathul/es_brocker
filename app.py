@@ -41,27 +41,27 @@ def get_bucket_aggregate(higher_limit = default_higher_limit, lower_limit = defa
         result[ag["key"]] = {"doc_count" : ag["doc_count"] ,  "unique_count" : ag["1"]["value"]}
 
 
-    # for f in fields:
-    #     field = "categories.intents.Transactional.{}".format(f)
+    for f in fields:
+        field = "categories.intents.Transactional.{}".format(f)
 
-    #     get_intent_score["aggs"]["2"]["aggs"]["3"]["range"]["field"] = field
-    #     get_intent_score["query"]["bool"]["must"][3]["range"]['@timestamp']['gte'] = lower_limit_unix
-    #     get_intent_score["query"]["bool"]["must"][3]["range"]['@timestamp']['lte'] = higher_limit_unix
+        get_intent_score["aggs"]["2"]["aggs"]["3"]["range"]["field"] = field
+        get_intent_score["query"]["bool"]["must"][3]["range"]['@timestamp']['gte'] = lower_limit_unix
+        get_intent_score["query"]["bool"]["must"][3]["range"]['@timestamp']['lte'] = higher_limit_unix
 
-    #     response = elastic_client.search(index="logstash-*", body=get_intent_score)
+        response = elastic_client.search(index="logstash-*", body=get_intent_score)
 
 
-    #     row_buckets = response['aggregations']["2"]["buckets"]
-    #     # print(row_buckets)
+        row_buckets = response['aggregations']["2"]["buckets"]
+        # print(row_buckets)
 
-    #     for ag in row_buckets:
-    #         key = ag["key"]
-    #         val = ag["3"]["buckets"]
-    #         tmp = {}
-    #         for k in val.keys():
-    #             tmp[k] = val[k]["doc_count"]
+        for ag in row_buckets:
+            key = ag["key"]
+            val = ag["3"]["buckets"]
+            tmp = {}
+            for k in val.keys():
+                tmp[k] = val[k]["doc_count"]
             
-    #         result[key][f] = tmp 
+            result[key][f] = tmp 
 
 
     return result
