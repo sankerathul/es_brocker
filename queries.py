@@ -99,7 +99,7 @@ get_intent_score = {
                 "to": 101
               }
             ],
-            "keyed": true
+            "keyed": True
           },
           "aggs": {
             "6": {
