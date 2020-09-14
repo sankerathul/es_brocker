@@ -7,17 +7,18 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>  
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.js"></script> </head>
     <body>
-      <form>
+      <form id="myForm">
         <div class="form-group">
           <div class="col-sm-6">
-            <input  class="form-control" type="text" placeholder="Select Start Date"  id="example1">
+            <input  class="form-control" type="text" placeholder="Select Start Date"  id="startDate">
           </div>       
           <div class="col-sm-6">
-            <input  class="form-control" type="text" placeholder="Select End Date"  id="example2"> 
+            <input  class="form-control" type="text" placeholder="Select End Date"  id="endDate"> 
           </div>
           <div class="col-sm-6">
             <button type="submit" class="btn btn-primary">Submit</button>
           </div>
+          
         </div>
       </form>
  </body>
@@ -27,7 +28,7 @@
   // When the document is ready
   $(document).ready(function () {
       
-      $('#example1').datepicker({
+      $('#startDate').datepicker({
           format: "dd/mm/yyyy"
       });  
   
@@ -35,36 +36,78 @@
 
   $(document).ready(function () {
       
-      $('#example2').datepicker({
+      $('#endDate').datepicker({
           format: "dd/mm/yyyy"
       });  
   
   });
 
 
-  $('#example1').datepicker({
+  $('#startDate').datepicker({
       autoclose: true,  
       format: "dd/mm/yyyy"
   }); 
 
-  $('#example2').datepicker({
+  $('#endtDate').datepicker({
       autoclose: true,  
       format: "dd/mm/yyyy"
   }); 
 
-  var settings = {
-    "url": "http://52.56.164.147:3009/get_data",
-    "method": "POST",
-    "timeout": 0,
-    "headers": {
-      "Content-Type": "application/json"
-    },
-    "data": JSON.stringify({"higher_limit":"2020-09-11 12:40:09.842407","lower_limit":"2019-09-12 12:40:09.842407"}),
-  };
+
   
-  $(document).ready(function() {
-    $.ajax(settings).done(function (response) {
+  $(function() {
+    // $('.error').hide();
+    $(".btn").click(function() {
+      var start_date = $("input#startDate").val();
+      var end_date = $("input#endDate").val();
+      if (start_date == ""){
+        $("label#startDate").show();
+        $("input#startDate").focus();
+        return false;
+      }
+      if (end_date == ""){
+        $("label#endDate").show();
+        $("input#endDate").focus();
+        return false;
+      }
+
+      var settings = {
+        "url": "http://52.56.164.147:3009/get_data",
+        "method": "POST",
+        "timeout": 0,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "data": JSON.stringify({"higher_limit":start_date,"lower_limit":end_date}),
+      };
+
+      console.log(settings)
+
+      $.ajax(settings).done(function (response) {
         console.log(response);
+
+        // Create anchor element. 
+        var a = document.createElement('a');  
+                
+        // Create the text node for anchor element. 
+        var link = document.createTextNode("Download CSV"); 
+                  
+        // Append the text node to anchor element. 
+        a.appendChild(link);  
+                  
+        // Set the title. 
+        a.title = "CSV";  
+                  
+        // Set the href property. 
+        a.href = response.url;  
+                  
+        // Append the anchor element to the body. 
+        document.body.appendChild(a); 
       });
-});
+
+      return false;
+
+    });
+  });
+
 </script>

@@ -24,7 +24,7 @@ def get_es_data():
     except:
         res,file_name = get_bucket_aggregate()
     
-    print(file_name)
+    # print(file_name)
     download_link = "http://52.56.164.147:3009/get_csv/{}".format(file_name)
     return jsonify({"url":download_link})
     # return res
