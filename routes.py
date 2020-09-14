@@ -23,7 +23,8 @@ def get_es_data():
         res,file_name = get_bucket_aggregate()
     
     print(file_name)
-    return jsonify(res)
+    download_link = "http://52.56.164.147:3009/get_csv/{}".format(file_name)
+    return jsonify({"url":download_link})
     # return res
 
 @app.route("/get_csv/<file_name>")
