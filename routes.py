@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 from app import get_bucket_aggregate
 
+from flask import send_file, send_from_directory, safe_join, abort
 from datetime import datetime, timedelta
 import time
 
@@ -24,6 +25,13 @@ def get_es_data():
     print(file_name)
     return jsonify(res)
     # return res
+
+@app.route("/get_csv/<image_name>")
+def get_image(image_name):
+    try:
+        return send_file("es_result_1568292009000_1599828009000.csv",as_attachment=True)
+    except FileNotFoundError:
+        abort(404)
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0')
