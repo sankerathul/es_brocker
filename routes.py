@@ -7,7 +7,7 @@ from datetime import datetime, timedelta
 import time
 
 app = Flask(__name__)
-CORS(app,resources={{"origins": "*.*"}})
+CORS(app,resources={r"/*":{"origins": "*"}})
 
 @app.route('/')
 def hello_world():
