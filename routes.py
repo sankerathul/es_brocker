@@ -16,6 +16,7 @@ def hello_world():
 @app.route('/get_data', methods=['POST'])
 def get_es_data():
     data = request.json
+    print("===>", data)
     try:
         higher_limit = datetime.strptime(data["higher_limit"], '%Y-%m-%d %H:%M:%S.%f')
         lower_limit = datetime.strptime(data["lower_limit"], '%Y-%m-%d %H:%M:%S.%f')
