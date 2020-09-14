@@ -89,23 +89,32 @@ def get_bucket_aggregate(higher_limit = default_higher_limit, lower_limit = defa
         response = elastic_client.search(index="logstash-*", body=get_intent_score)
 
 
-        row_buckets = response['aggregations']["2"]["buckets"]
+        row_buckets = response['aggregations']["3"]["buckets"]
         # print(row_buckets)
 
         temp1 = list()
         temp2 = list()
         temp3 = list()
         temp4 = list()
+        u_temp1 = list()
+        u_temp2 = list()
+        u_temp3 = list()
+        u_temp4 = list()
 
         for ag in row_buckets:
             key = ag["key"]
-            val = ag["3"]["buckets"]
+            val = ag["5"]["buckets"]
             tmp = {}
 
-            temp1.append(val["0.0-25.0"]["doc_count"])
-            temp2.append(val["25.0-50.0"]["doc_count"])
-            temp3.append(val["50.0-75.0"]["doc_count"])
-            temp4.append(val["75.0-101.0"]["doc_count"])
+            temp1.append(val["0.0-25.0_total"]["doc_count"])
+            temp2.append(val["25.0-50.0_total"]["doc_count"])
+            temp3.append(val["50.0-75.0_total"]["doc_count"])
+            temp4.append(val["75.0-101.0_total"]["doc_count"])
+
+            u_temp1.append(val["0.0-25.0_unique"]["6"]["value"])
+            u_temp2.append(val["25.0-50.0_unique"]["6"]["value"])
+            u_temp3.append(val["50.0-75.0_unique"]["6"]["value"])
+            u_temp4.append(val["75.0-101.0_unique"]["6"]["value"])
 
 
             for k in val.keys():
@@ -113,10 +122,14 @@ def get_bucket_aggregate(higher_limit = default_higher_limit, lower_limit = defa
             
             result[key][f] = tmp 
 
-        result_df["{}_0-25".format(f)] = temp1
-        result_df["{}_25-50".format(f)] = temp2
-        result_df["{}_50-75".format(f)] = temp3
-        result_df["{}_75-100".format(f)] = temp4
+        result_df["{}_0-25_total".format(f)] = temp1
+        result_df["{}_0-25_unique".format(f)] = u_temp1
+        result_df["{}_25-50_total".format(f)] = temp2
+        result_df["{}_25-5_unique".format(f)] = u_temp2
+        result_df["{}_50-75_total".format(f)] = temp3
+        result_df["{}_50-75_unique".format(f)] = u_temp3
+        result_df["{}_75-100_total".format(f)] = temp4
+        result_df["{}_75-100_unique".format(f)] = u_temp4
     
     # print(result_df)
     file_name = "es_result_{}_{}.csv".format(lower_limit_unix,higher_limit_unix)

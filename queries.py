@@ -69,7 +69,7 @@ get_count = {
 
 get_intent_score = {
   "aggs": {
-    "2": {
+    "3": {
       "terms": {
         "field": "row_cat_data.categories_v2.keyword",
         "size": 100000,
@@ -78,9 +78,9 @@ get_intent_score = {
         }
       },
       "aggs": {
-        "3": {
+        "5": {
           "range": {
-            "field": "categories.intents.Informational",
+            "field": "categories.intents.Commercial",
             "ranges": [
               {
                 "from": 0,
@@ -99,7 +99,14 @@ get_intent_score = {
                 "to": 101
               }
             ],
-            "keyed": "true"
+            "keyed": true
+          },
+          "aggs": {
+            "6": {
+              "cardinality": {
+                "field": "user_uuid.keyword"
+              }
+            }
           }
         }
       }
@@ -136,8 +143,8 @@ get_intent_score = {
         {
           "range": {
             "@timestamp": {
-              "gte": 1597164155261,
-              "lte": 1599756155261,
+              "gte": 1597504982966,
+              "lte": 1600096982966,
               "format": "epoch_millis"
             }
           }
@@ -153,4 +160,4 @@ get_intent_score = {
       "must_not": []
     }
   }
-} 
+}
