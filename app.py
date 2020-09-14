@@ -119,10 +119,10 @@ def get_bucket_aggregate(higher_limit = default_higher_limit, lower_limit = defa
         result_df["{}_75-100".format(f)] = temp4
     
     # print(result_df)
-
-    result_df.to_csv("es_result_{}_{}.csv".format(lower_limit_unix,higher_limit_unix), encoding='utf-8')
+    file_name = "es_result_{}_{}.csv".format(lower_limit_unix,higher_limit_unix)
+    result_df.to_csv(file_name, encoding='utf-8')
 
     result = json.dumps(result, ensure_ascii=False).encode('utf8')
     result = json.loads(result)
 
-    return result
+    return result,file_name

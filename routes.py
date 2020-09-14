@@ -17,10 +17,11 @@ def get_es_data():
         higher_limit = datetime.strptime(data["higher_limit"], '%Y-%m-%d %H:%M:%S.%f')
         lower_limit = datetime.strptime(data["lower_limit"], '%Y-%m-%d %H:%M:%S.%f')
 
-        res = get_bucket_aggregate(higher_limit, lower_limit)
+        res,file_name = get_bucket_aggregate(higher_limit, lower_limit)
     except:
-        res = get_bucket_aggregate()
+        res,file_name = get_bucket_aggregate()
     
+    print(file_name)
     return jsonify(res)
     # return res
 
