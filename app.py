@@ -79,8 +79,6 @@ def get_bucket_aggregate(higher_limit = default_higher_limit, lower_limit = defa
     result_df["Doc_count"] = doc_count_list
     result_df["Unique_count"] = uniq_count_list
 
-    print(result_df)
-
     for f in fields:
         field = "categories.intents.{}".format(f)
 
@@ -94,14 +92,33 @@ def get_bucket_aggregate(higher_limit = default_higher_limit, lower_limit = defa
         row_buckets = response['aggregations']["2"]["buckets"]
         # print(row_buckets)
 
+        temp1 = list()
+        temp2 = list()
+        temp3 = list()
+        temp4 = list()
+
         for ag in row_buckets:
             key = ag["key"]
             val = ag["3"]["buckets"]
             tmp = {}
+
+            temp1.append(val["0.0-25.0"]["doc_count"])
+            temp2.append(val["25.0-50.0"]["doc_count"])
+            temp3.append(val["50.0-75.0"]["doc_count"])
+            temp4.append(val["75.0-101.0"]["doc_count"])
+
+
             for k in val.keys():
                 tmp[k] = val[k]["doc_count"]
             
             result[key][f] = tmp 
+
+        result_df["{}_0-25".format(f)] = temp1
+        result_df["{}_25-50".format(f)] = temp2
+        result_df["{}_50-75".format(f)] = temp3
+        result_df["{}_75-100".format(f)] = temp4
+    
+    print(result_df)
 
     result = json.dumps(result, ensure_ascii=False).encode('utf8')
     result = json.loads(result)
