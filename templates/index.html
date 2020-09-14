@@ -18,9 +18,10 @@
           <div class="col-sm-6">
             <button type="submit" class="btn btn-primary">Submit</button>
           </div>
-          
         </div>
       </form>
+      <div id="dataTable">
+      </div>
  </body>
  </html>
 
@@ -56,7 +57,7 @@
 
   
   $(function() {
-    // $('.error').hide();
+    $('.error').hide();
     $(".btn").click(function() {
       var start_date = $("input#startDate").val();
       var end_date = $("input#endDate").val();
@@ -70,42 +71,67 @@
         $("input#endDate").focus();
         return false;
       }
-
+      $("#es_table").remove();
+      $("#download_link").remove();
       var today = new Date();
       var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds() + ".0000";
 
-      var settings = {
-        "url": "http://52.56.164.147:3009/get_data",
-        "method": "POST",
-        "timeout": 0,
-        "headers": {
+      $.ajax({
+        type:'POST',
+        url: "http://52.56.164.147:3009/get_data",
+        headers: {
           "Content-Type": "application/json"
         },
-        "data": JSON.stringify({"higher_limit":end_date+" "+time,"lower_limit":start_date+" "+time}),
-      };
+        data: JSON.stringify({"higher_limit":end_date+" "+time,"lower_limit":start_date+" "+time}),
+        success: function (response) {
+          $.ajax({
+            url: response.url,
+            dataType:"text",
+            success:function(data){
+              console.log("Data");
 
-      console.log(settings)
-
-      $.ajax(settings).done(function (response) {
-        console.log(response);
-
-        // Create anchor element. 
-        var a = document.createElement('a');  
-                
-        // Create the text node for anchor element. 
-        var link = document.createTextNode("Download CSV"); 
-                  
-        // Append the text node to anchor element. 
-        a.appendChild(link);  
-                  
-        // Set the title. 
-        a.title = "CSV";  
-                  
-        // Set the href property. 
-        a.href = response.url;  
-                  
-        // Append the anchor element to the body. 
-        document.body.appendChild(a); 
+              console.log(response);
+              // Create anchor element. 
+              var a = document.createElement('a');  
+                    
+              // Create the text node for anchor element. 
+              var link = document.createTextNode("Download"); 
+                              
+              // Append the text node to anchor element. 
+              a.appendChild(link);  
+                              
+              // Set the title. 
+              a.title = "CSV";  
+              a.id = "download_link"
+                              
+              // Set the href property. 
+              a.href = response.url;  
+                              
+              // Append the anchor element to the body. 
+              document.body.appendChild(a); 
+              
+              var es_data = data.split(/\r?\n|\r/);
+              var table_data = '<table class="table table-bordered table-striped" id="es_table">';
+              for(var count = 0; count<es_data.length; count++){
+                var cell_data = es_data[count].split(",");
+                table_data += '<tr>';
+                for(var cell_count=0; cell_count<cell_data.length; cell_count++){
+                  if(count === 0)
+                  {
+                  table_data += '<th>'+cell_data[cell_count]+'</th>';
+                  }
+                  else
+                  {
+                  table_data += '<td>'+cell_data[cell_count]+'</td>';
+                  }
+                }
+                table_data += '</tr>';
+              }
+              table_data += '</table>';
+              $('#dataTable').html(table_data);
+            }
+          });
+        }
       });
 
       return false;
