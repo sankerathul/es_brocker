@@ -27,7 +27,7 @@ def get_es_data():
     # return res
 
 @app.route("/get_csv")
-def get_image(image_name):
+def get_csv():
     try:
         return send_file("es_result_1568292009000_1599828009000.csv",as_attachment=True)
     except FileNotFoundError:
