@@ -82,7 +82,7 @@ def get_bucket_aggregate(higher_limit = default_higher_limit, lower_limit = defa
     for f in fields:
         field = "categories.intents.{}".format(f)
 
-        get_intent_score["aggs"]["2"]["aggs"]["3"]["range"]["field"] = field
+        get_intent_score["aggs"]["3"]["aggs"]["5"]["range"]["field"] = field
         get_intent_score["query"]["bool"]["must"][3]["range"]['@timestamp']['gte'] = lower_limit_unix
         get_intent_score["query"]["bool"]["must"][3]["range"]['@timestamp']['lte'] = higher_limit_unix
 
