@@ -26,10 +26,10 @@ def get_es_data():
     return jsonify(res)
     # return res
 
-@app.route("/get_csv")
-def get_csv():
+@app.route("/get_csv/<file_name>")
+def get_csv(file_name):
     try:
-        return send_file("es_result_1568292009000_1599828009000.csv",as_attachment=True)
+        return send_file(file_name,as_attachment=True)
     except FileNotFoundError:
         abort(404)
 
