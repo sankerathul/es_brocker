@@ -34,10 +34,22 @@ def get_bucket_aggregate(higher_limit = default_higher_limit, lower_limit = defa
     row_buckets = response['aggregations']["3"]["buckets"]
 
     result = dict()
+    result_df = pd.DataFrame()
 
+    key_list = list()
+    doc_count_list = list()
+    uniq_count_list = list()
     for ag in row_buckets:
+        key_list.append(ag["key"])
+        doc_count_list.append(ag["doc_count"])
+        uniq_count_list.append(ag["1"]["value"])
         result[ag["key"]] = {"doc_count" : ag["doc_count"] ,  "unique_count" : ag["1"]["value"]}
 
+    result_df["Categories"] = key_list
+    result_df["Doc_count"] = doc_count_list
+    result_df["Unique_count"] = uniq_count_list
+
+    print(result_df)
 
     for f in fields:
         field = "categories.intents.{}".format(f)
