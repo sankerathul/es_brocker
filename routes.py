@@ -30,7 +30,7 @@ def get_es_data():
 @app.route("/get_csv/<file_name>")
 def get_csv(file_name):
     try:
-        return send_file(file_name,as_attachment=True)
+        return send_file(file_name)
     except FileNotFoundError:
         abort(404)
 
