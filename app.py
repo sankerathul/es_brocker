@@ -17,12 +17,12 @@ default_higher_limit = datetime.now()
 default_lower_limit = default_higher_limit - timedelta(days=30)
 
 def get_bucket_aggregate(higher_limit = default_higher_limit, lower_limit = default_lower_limit):
-    # print(higher_limit, lower_limit)
+    print(higher_limit, lower_limit)
 
     higher_limit_unix = int(time.mktime(higher_limit.timetuple())*1000)
     lower_limit_unix = int(time.mktime(lower_limit.timetuple())*1000)
 
-    # print(higher_limit_unix,lower_limit_unix)
+    print(higher_limit_unix,lower_limit_unix)
 
     get_count["query"]["bool"]["must"][3]["range"]['@timestamp']['gte'] = lower_limit_unix
     get_count["query"]["bool"]["must"][3]["range"]['@timestamp']['lte'] = higher_limit_unix
