@@ -36,16 +36,46 @@ def get_bucket_aggregate(higher_limit = default_higher_limit, lower_limit = defa
     result = dict()
     result_df = pd.DataFrame()
 
-    key_list = list()
+    main_cat = list()
+    sub1 = []
+    sub2 = []
+    sub3 = []
+
     doc_count_list = list()
     uniq_count_list = list()
+
+
     for ag in row_buckets:
-        key_list.append(ag["key"])
+        key = ag["key"]
+        key_list = key.split("/")
+
+        main_cat.append(key_list[0])
+
+        try:
+            sub1.append(key_list[1])
+        except:
+            sub1.append("")
+
+        
+        try:
+            sub2.append(key_list[2])
+        except:
+            sub2.append("")
+
+        
+        try:
+            sub3.append(key_list[3])
+        except:
+            sub3.append("")
+
         doc_count_list.append(ag["doc_count"])
         uniq_count_list.append(ag["1"]["value"])
         result[ag["key"]] = {"doc_count" : ag["doc_count"] ,  "unique_count" : ag["1"]["value"]}
 
-    result_df["Categories"] = key_list
+    result_df["Categories"] = main_cat
+    result_df["Sub1"] = sub1
+    result_df["Sub2"] = sub2
+    result_df["Sub3"] = sub3
     result_df["Doc_count"] = doc_count_list
     result_df["Unique_count"] = uniq_count_list
 
