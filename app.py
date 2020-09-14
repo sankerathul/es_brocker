@@ -106,15 +106,15 @@ def get_bucket_aggregate(higher_limit = default_higher_limit, lower_limit = defa
             val = ag["5"]["buckets"]
             tmp = {}
 
-            temp1.append(val["0.0-25.0_total"]["doc_count"])
-            temp2.append(val["25.0-50.0_total"]["doc_count"])
-            temp3.append(val["50.0-75.0_total"]["doc_count"])
-            temp4.append(val["75.0-101.0_total"]["doc_count"])
+            temp1.append(val["0.0-25.0"]["doc_count"])
+            temp2.append(val["25.0-50.0"]["doc_count"])
+            temp3.append(val["50.0-75.0"]["doc_count"])
+            temp4.append(val["75.0-101.0"]["doc_count"])
 
-            u_temp1.append(val["0.0-25.0_unique"]["6"]["value"])
-            u_temp2.append(val["25.0-50.0_unique"]["6"]["value"])
-            u_temp3.append(val["50.0-75.0_unique"]["6"]["value"])
-            u_temp4.append(val["75.0-101.0_unique"]["6"]["value"])
+            u_temp1.append(val["0.0-25.0"]["6"]["value"])
+            u_temp2.append(val["25.0-50.0"]["6"]["value"])
+            u_temp3.append(val["50.0-75.0"]["6"]["value"])
+            u_temp4.append(val["75.0-101.0"]["6"]["value"])
 
 
             for k in val.keys():
