@@ -6,14 +6,31 @@ from flask import send_file, send_from_directory, safe_join, abort
 from datetime import datetime, timedelta
 import time
 
+from flask_httpauth import HTTPBasicAuth
+from werkzeug.security import generate_password_hash, check_password_hash
+
 app = Flask(__name__)
 CORS(app,resources={r"/*":{"origins": "*"}})
 
+auth = HTTPBasicAuth()
+
+users = {
+    "admin": generate_password_hash("truyu@dashboard"),
+}
+
+@auth.verify_password
+def verify_password(username, password):
+    if username in users and \
+            check_password_hash(users.get(username), password):
+        return username
+
 @app.route('/')
-def hello_world():
+@auth.login_required
+def index():
     return render_template("index.html")
 
 @app.route('/get_data', methods=['POST'])
+@auth.login_required
 def get_es_data():
     data = request.json
     print("===>", data)
@@ -31,6 +48,7 @@ def get_es_data():
     # return res
 
 @app.route("/get_csv/<file_name>")
+@auth.login_required
 def get_csv(file_name):
     try:
         return send_file(file_name, as_attachment=True, cache_timeout=0)
